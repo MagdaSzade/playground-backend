@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server side for my own page",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagdaSzade/playground.git"
+  },
+  "keywords": [
+    "server"
+  ],
+  "author": "Magdalena Szade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MagdaSzade/playground/issues"
+  },
+  "homepage": "https://github.com/MagdaSzade/playground#readme",
+  "dependencies": {
+    "config": "^3.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemailer": "^6.4.11",
+    "nodemon": "^2.0.4",
+    "winston": "^3.3.3"
+  }
+}
