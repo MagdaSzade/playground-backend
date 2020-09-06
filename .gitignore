@@ -1,3 +1,4 @@
-config
+config/default.json
 node_modules
 *.log
+package-lock.json
