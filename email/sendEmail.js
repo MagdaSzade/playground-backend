@@ -18,10 +18,6 @@ oauth2Client.setCredentials({
 
 module.exports = async function sendEmail(req, res) {
     const { token } = await oauth2Client.getAccessToken();
-    console.log(config.get("CLIENT_ID"));
-    console.log(config.get("SECRET"));
-    console.log(config.get("redirect"));
-    console.log(token);
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -37,7 +33,6 @@ module.exports = async function sendEmail(req, res) {
             rejectUnauthorized: false
         }
     });
-
 
     if (req.body.email && req.body.message && req.body.title) { 
         const newMessage = { email: req.body.email,
