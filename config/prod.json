@@ -1,8 +1,7 @@
 {
     "email": "pixelartagainstSMA@gmail.com",
     "myEmail": "magdalena.szade@gmail.com",
-    "redirect": "https://developers.google.com/oauthplayground",
-    "CLIENT_ID": "",
+    "redirect": "https://developers.google.com/oauthplayground","CLIENT_ID": "",
     "SECRET": "",
     "REFRESH_TOKEN": ""
 }

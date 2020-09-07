@@ -1,6 +1,7 @@
-const { info } = require('winston');
+const { info, error } = require('winston');
 const config = require('config');
 const nodemailer = require('nodemailer');
+const xoauth2 = require('xoauth2');
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
 
@@ -14,24 +15,30 @@ oauth2Client.setCredentials({
     refresh_token: config.get("REFRESH_TOKEN")
 });
 
-const accessToken = oauth2Client.getAccessToken();
-
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        type: "OAuth2",
-        user: config.get("email"), 
-        ClientID: config.get("CLIENT_ID"),
-        clientSecret: config.get("SECRET"),
-        refreshToken: config.get("REFRESH_TOKEN"),
-        accessToken: accessToken
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-});
 
 module.exports = async function sendEmail(req, res) {
+    const { token } = await oauth2Client.getAccessToken();
+    console.log(config.get("CLIENT_ID"));
+    console.log(config.get("SECRET"));
+    console.log(config.get("redirect"));
+    console.log(token);
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            type: 'OAuth2',
+            user: config.get("email"),
+            ClientID: config.get("CLIENT_ID"),
+            clientSecret: config.get("SECRET"),
+            refreshToken: config.get("REFRESH_TOKEN"),
+            accessToken: token
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+
+
     if (req.body.email && req.body.message && req.body.title) { 
         const newMessage = { email: req.body.email,
                             title: req.body.title,
@@ -44,11 +51,11 @@ module.exports = async function sendEmail(req, res) {
                 cc: newMessage.email,
                 subject: newMessage.title,
                 text: newMessage.message });
-            } catch (err) {
-                error(err.message, err);
-                res.status(500).send();
-            }
-        transporter.close();
+                transporter.close();
+        } catch (err) {
+            error(err.message);
+            res.status(500).send();
+        }
         res.status(200).send();
     } else {
         res.status(400).send();
